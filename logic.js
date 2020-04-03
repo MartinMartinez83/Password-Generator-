@@ -3,159 +3,93 @@
 
 
 //Variables 
-var passWordGeneratingCharacters;
-var passwordGeneratingCriteria = [];
-var wantsLowerCaseLetter;
+
+//Final password
+var completedPass = []
+//>=8 & <=128 chars (user input)
+var passwordLenght = [];
+//chars to choose from (all available chars in the random password)
+var charAvil = [];
+// Number of times out for loop will run
+var countChar = [];
+// holds all of the different arrays of chars
+var passwordGeneratingCriteria = {};
 
 
 
-
+// generate a password
 function passWord() {
 
-    
-
-    var lowerCaseLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    //console.log(lowerCaseLetters)
-    //Spcial Characters 
-    var specChars = ['!', '?', '@', '#', '$', '%', '^', '&', '*', '(', ')', '<', '>', '~', '`'];
-   // console.log(specChars)
-    //Numbers
-    var numChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    // console.log(numChars)
-    var upperCaseLetters = (String.prototype.toUpperCase.apply(lowerCaseLetters).split(","));
-    
-    
+// promt user to choose the lenght of the password
     var passwordLenght = prompt("Pick a number between 8 and 128");
+// reasigning passwordlenght to passwordGeneratingCriteria    
+    passwordGeneratingCriteria = passwordLenght;
+// consoling passwordLenght (user's choice)    
     console.log("User Pass Length: " + passwordLenght)
-
+// for the function to run password has to be between 8 and 128 chars or the function will not run
     if (passwordLenght >= 8 && passwordLenght <= 128) {
 
-
+// asking the user if they want a number
         var numberLet = confirm("Do you want a number?");
-        
+// if user wants numbers then push to array charAvil (charAvil === the array that will hoold all the chars user whises to have in the password)
         if (numberLet === true) {
-            passwordGeneratingCriteria.push(numChars)
-        }
-        else{
-            
+            // numbers that will be pushed to array if user wants numbers
+            charAvil = "0123456789";
         }
 
 
+// asking the user if they want a lower case letter
         var lowerLet = confirm("Do you want a lower case letter?");
-        
+// if user wants lower case then push to array charAvil (charAvil === the array that will hoold all the chars user whises to have in the password)
         if (lowerLet === true) {
-            
-            passwordGeneratingCriteria.push(lowerCaseLetters)
-        }
-        else {
-    
+// adding char charAvil + the lettes back to charAvail (addings lower leters to the array)
+            charAvil = charAvil + "abcdefghijklmnopqrstuvwxyz";
         }
 
+// Same as top two
         var specLet = confirm("Do you want a special character?");
-        
+
         if (specLet === true) {
-        passwordGeneratingCriteria.push(specChars)
-        }
-        else {
-            
+            charAvil = charAvil + "~!@#$%^&*?\|,_-";
         }
 
+// same as top two
         var upperLet = confirm("Do you want uppercase letters")
-            
-            if (upperLet === true) {
-                passwordGeneratingCriteria.push(upperCaseLetters);
-            }
-            else {
-                console.log("Your password will not incluse uppercase letters?");
-            }
-           
-        // ***************for loop over our array (passworeGeneratingCriteria) using math.random
-            // loop over  the array ONLY the amount of times the user 
 
-            
-            // loop through "passwordLength" === to the amount of chars the user enters in when we prompt them
-            for (var i = 0; i < passwordLenght.length; i++) { 
+        if (upperLet === true) {
+            charAvil = charAvil + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
 
-                // Get random Value from our array with all the chars the user accepted
-                var random = (Math.floor(Math.random() * passwordGeneratingCriteria.length));
 
-                // pass the random var ^^ into the array
-                passwordGeneratingCriteria[random];
-                // array that holds user char choices
-                // each loop, take the random char, store it in a varialbel
-                completedPass =+ passwordGeneratingCriteria; // each loop, completedPass = passGenCri
 
-            }
-            // console.log that completed password
-            // "completedPass" is the variable that will hold our random pass after the password generated the password
-            //parseInt(Random Char)
-            console.log(completedPass);
-            
-            
-            
-            
+        // converting passwordGeneratingCriteria to an integer (countChar)
+        var countChar = parseInt(passwordGeneratingCriteria); // 10 || https://www.w3schools.com/jsref/jsref_parseint.asp
 
-    } else { // if it doesnt meet requirements
-        alert("Didn't meet requirements")
-        
-        
-    }
-    
+
+        // starting loop that will run as many times as passwordLength
+        // for loop get a random char every loop ans stores it to completedPass
+        for (var i = 0; i < countChar; i++) {
+ 
+            // https://www.w3schools.com/js/js_random.asp
+            var random = Math.floor(Math.random() * charAvil.length);
+
+            // reasigning number of all available chars in the random password to tester
+            tester = charAvil[random];
+            // each loop, store the random char to completed pass (users final password)
+            completedPass += tester;
+
+        }
+        // I want you to put this to the page, because this is consoling the completed password
+        console.log(completedPass);
+        // Display password generated in text area
+        document.getElementById("password").innerHTML = completedPass;
+
+    } 
 }
 
 
-    
+// button clik that fires off function
 var generateBtn = document.querySelector("#generate");
-
-    generateBtn.addEventListener("click", passWord);
-
-
-  
-
-
-//     var generateBtn = document.querySelector("#generate");
-
-// // Write password to the #password input
-// function writePassword() {
-//   var password = passwordGeneratingCriteria();
-//   var passwordText = document.querySelector("#password");
-
-//   passwordText.value = password;
-// }
-
-// // Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+generateBtn.addEventListener("click", passWord);
 
 
